@@ -1,22 +1,25 @@
-import { type FC } from 'react'
+import { type FC } from 'react';
+
+import { withAuth } from '@/utils/auth-hoc';
 
 const Page: FC = () => {
   return (
     <main className="flex justify-center">
-      <div className="hero min-h-screen bg-base-200">
+      <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Hello there</h1>
             <p className="py-6">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-              a id nisi.
+              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
+              et a id nisi.
             </p>
             <button className="btn btn-primary">Get Started</button>
           </div>
         </div>
       </div>
     </main>
-  )
-}
-export default Page
+  );
+};
+
+export default withAuth(Page);

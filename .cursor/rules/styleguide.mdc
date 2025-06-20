@@ -14,6 +14,8 @@ Use yarn for package management.
 All React components should be typed using the `FC` type, imported from `react`.
 If a component has properties, they should be provided via a dedicated interface.
 
+This application is configured with the NextJS App Router using a Src Folder
+
 Within a NextJS Layout.tsx, Template.tsx or Page.tsx component, the export should follow the component delaration.
 
 The default component within a Page.tsx file should be named Page.
@@ -21,6 +23,8 @@ The default component within a Layout.tsx file should be named Layout.
 The default component within a Template.tsx file should be named Template.
 
 Reusable components such as buttons or inputs should be located within `./src/components/<component-name>/index.tsx`.
+
+Only components required by NextJS to be the default export should be exported as default, the rest should be named exports.
 
 Components unique to a single Page, should be colocated next to the Page.tsx and kept within a `_components` folder.
 
@@ -30,10 +34,13 @@ Interactivity should be provided by Client components, proxying API calls throug
 Server actions should be colocated and live in a `_actions` folders.
 Forms should be built using React Hook Form, and Validated using Zod.
 
+Where a type is imported, and used as a type only, it should be imported as a type.
+
 ## CSS & Tailwind
 
 CSS should be implemented using CSS modules.
-Tailwind is preferred over custom CSS.
+Tailwind is preferred over custom CSS, we are using Tailwind 4 with Daisy UI
+You can find out more about DaisyUI by using the Context 7 MCP.
 
 When using a CSS module, you must use the bracket notation i.e. `styles['classname-1']`.
 

@@ -1,14 +1,19 @@
 {
-  "semi": false,
+  "semi": true,
   "tabWidth": 2,
   "singleQuote": true,
   "trailingComma": "es5",
   "plugins": [
-    "prettier-plugin-tailwindcss",
-    "prettier-plugin-eslint",
-    "@trivago/prettier-plugin-sort-imports"
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
   ],
-  "importOrder": ["^react", "<THIRD_PARTY_MODULES>", "^@/", "^[./]"],
+  "importOrder": [
+    "^(react|next)",
+    "<THIRD_PARTY_MODULES>",
+    "^@/",
+    "^[./]",
+    "\\.module\\.css$"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
