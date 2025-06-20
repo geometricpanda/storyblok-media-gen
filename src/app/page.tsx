@@ -5,7 +5,7 @@ import { withAuth } from '@/utils/auth-hoc';
 const Page: FC = () => {
   return (
     <main className="flex justify-center">
-      <div className="hero bg-base-200 min-h-screen">
+      <div className="hero">
         <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Hello there</h1>

@@ -1,2 +1,11 @@
-@import 'tailwindcss';
+@import 'tailwindcss/preflight';
+@import 'tailwindcss/utilities';
 @plugin 'daisyui';
+
+html,
+body {
+  height: auto;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}

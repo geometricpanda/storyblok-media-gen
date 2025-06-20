@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { type FC, type ReactNode } from 'react';
 
+import { StoryblokHeightObserver } from '@/components/StoryblokHeightObserver';
+import { STORYBLOK } from '@/storyblok/env';
+
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -15,7 +18,11 @@ interface LayoutProps {
 const Layout: FC<Readonly<LayoutProps>> = ({ children }) => {
   return (
     <html lang="en">
-      <body className="bg-base-200 min-h-screen">{children}</body>
+      <body>
+        <StoryblokHeightObserver tool={STORYBLOK.TOOL_NAME}>
+          {children}
+        </StoryblokHeightObserver>
+      </body>
     </html>
   );
 };
