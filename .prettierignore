@@ -1,0 +1,22 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+
+# build artifacts
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# yarn
+.yarn/
+yarn-error.log
+yarn.lock
+
+package-lock.json 

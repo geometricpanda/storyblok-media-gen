@@ -1,0 +1,57 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Styleguide
+
+## Packages Management
+
+Use yarn for package management.
+
+## React Components & NextJS
+
+All React components should be typed using the `FC` type, imported from `react`.
+If a component has properties, they should be provided via a dedicated interface.
+
+Within a NextJS Layout.tsx, Template.tsx or Page.tsx component, the export should follow the component delaration.
+
+The default component within a Page.tsx file should be named Page.
+The default component within a Layout.tsx file should be named Layout.
+The default component within a Template.tsx file should be named Template.
+
+Reusable components such as buttons or inputs should be located within `./src/components/<component-name>/index.tsx`.
+
+Components unique to a single Page, should be colocated next to the Page.tsx and kept within a `_components` folder.
+
+All Layout.tsx and Page.tsx components should be Server Components.
+Interactivity should be provided by Client components, proxying API calls through Server Actions.
+
+Server actions should be colocated and live in a `_actions` folders.
+Forms should be built using React Hook Form, and Validated using Zod.
+
+## CSS & Tailwind
+
+CSS should be implemented using CSS modules.
+Tailwind is preferred over custom CSS.
+
+When using a CSS module, you must use the bracket notation i.e. `styles['classname-1']`.
+
+For components with a single CSS classes, it should be provided directly into the `className` property of the HTML element it's being applied to.
+
+For components with multiple css classes, they should be applied using the css library such as:
+
+```tsx
+ <div className={clsx('classname-1', 'classname-2')}>
+ ...
+ </div>
+```
+
+Should a component have optional CSS classes, they should be applied using an object notication
+
+```tsx
+<div className={clsx({
+    [styles['classname']]: true,
+    [styles['classname--variant']]: variant === true,
+}, className)}>
+```
