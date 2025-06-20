@@ -15,6 +15,7 @@ interface SelectProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
   options: { label: string; value: string }[];
+  required?: boolean;
 }
 
 export const Select = <T extends FieldValues>({
@@ -24,6 +25,7 @@ export const Select = <T extends FieldValues>({
   register,
   errors,
   options,
+  required,
 }: SelectProps<T>) => {
   const error = errors[name];
   const id = useId();
@@ -33,6 +35,7 @@ export const Select = <T extends FieldValues>({
       <label className="label" htmlFor={id}>
         <span className="label-text text-base-content pb-1 font-bold">
           {label}
+          {required && <span className="text-error">*</span>}
         </span>
       </label>
       {description && (

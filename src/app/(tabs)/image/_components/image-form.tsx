@@ -46,7 +46,7 @@ export const ImageForm = () => {
   } = useForm<ImageFormSchema>({
     resolver: zodResolver(imageFormSchema),
     defaultValues: {
-      aspectRatio: '1024x1024',
+      aspectRatio: '1408x768',
       promptRewriting: true,
       personGeneration: 'allow_adults',
     },
@@ -65,6 +65,7 @@ export const ImageForm = () => {
         register={register}
         errors={errors}
         placeholder="A majestic lion with a flowing mane, standing on a rocky outcrop overlooking a vast savanna at sunset, cinematic lighting, hyper-detailed, shot on a DSLR with a 50mm lens during the golden hour."
+        required
       />
       <div className="mt-4">
         <Select<ImageFormSchema>

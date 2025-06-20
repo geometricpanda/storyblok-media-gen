@@ -1,9 +1,10 @@
 import { type FC } from 'react';
+import { VideoForm } from './_components/video-form';
 
 const Page: FC = () => {
   return (
-    <main>
-      <h1>Video</h1>
+    <main className="w-full max-w-lg">
+      <VideoForm />
     </main>
   );
 };
