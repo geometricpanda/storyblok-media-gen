@@ -12,11 +12,15 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.519.0",
     "next": "15.3.4",
     "next-auth": "^5.0.0-beta.28",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.58.1",
+    "react-textarea-autosize": "^8.5.9",
     "storyblok-js-client": "^7.0.1",
     "zod": "^3.25.67"
   },

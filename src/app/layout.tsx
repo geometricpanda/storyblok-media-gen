@@ -16,7 +16,7 @@ interface LayoutProps {
 const Layout: FC<Readonly<LayoutProps>> = ({ children }) => {
   return (
     <html lang="en">
-      <body>
+      <body className="p-2">
         <StoryblokAutoResize tool={STORYBLOK.TOOL_NAME} />
         {children}
       </body>
