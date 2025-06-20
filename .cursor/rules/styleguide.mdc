@@ -46,7 +46,7 @@ When using a CSS module, you must use the bracket notation i.e. `styles['classna
 
 For components with a single CSS classes, it should be provided directly into the `className` property of the HTML element it's being applied to.
 
-For components with multiple css classes, they should be applied using the css library such as:
+For components with multiple css classes, they should be applied using the CLSX library and ensure that each classname is a different string - this is to allow multiline wrapping:
 
 ```tsx
  <div className={clsx('classname-1', 'classname-2')}>

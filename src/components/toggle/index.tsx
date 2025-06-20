@@ -6,6 +6,7 @@ import {
   type UseFormRegister,
   type UseFormWatch,
 } from 'react-hook-form';
+import clsx from 'clsx';
 import { AlertTriangle } from 'lucide-react';
 
 interface ToggleProps<T extends FieldValues> {
@@ -43,7 +44,18 @@ export const Toggle = <T extends FieldValues>({
         <input
           id={id}
           type="checkbox"
-          className="toggle toggle-primary toggle-lg"
+          className={clsx(
+            'toggle',
+            'toggle-lg',
+            'focus:ring-2',
+            'focus:ring-blue-500',
+            'focus:ring-offset-2',
+            'focus:outline-none',
+            {
+              'ring-error': !!error,
+              'ring-2': !!error,
+            }
+          )}
           {...register(name)}
         />
         <label

@@ -6,6 +6,7 @@ import {
   type UseFormRegister,
 } from 'react-hook-form';
 import TextareaAutosize from 'react-textarea-autosize';
+import clsx from 'clsx';
 import { AlertTriangle } from 'lucide-react';
 
 interface TextareaProps<T extends FieldValues> {
@@ -42,10 +43,19 @@ export const Textarea = <T extends FieldValues>({
       )}
       <TextareaAutosize
         id={id}
-        {...register(name)}
-        placeholder={placeholder}
-        className="textarea textarea-bordered"
+        className={clsx(
+          'textarea',
+          'textarea-bordered',
+          'leading-tight',
+          'focus:ring-2',
+          'focus:ring-blue-500',
+          'focus:ring-offset-2',
+          'focus:outline-none',
+          error && 'textarea-error'
+        )}
         minRows={minRows}
+        placeholder={placeholder}
+        {...register(name)}
       />
       {error && (
         <label className="label mt-1">

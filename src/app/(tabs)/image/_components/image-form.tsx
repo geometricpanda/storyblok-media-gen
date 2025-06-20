@@ -16,6 +16,12 @@ const aspectRatios = [
   { label: '16:9 (1408x768)', value: '1408x768' },
 ];
 
+const personGenerationOptions = [
+  { label: 'Allow All', value: 'allow_all' },
+  { label: 'Allow Adults', value: 'allow_adults' },
+  { label: 'Dont Allow', value: 'disallow' },
+];
+
 const imageFormSchema = z.object({
   prompt: z.string().min(1, 'Please enter a prompt'),
   aspectRatio: z.enum([
@@ -26,6 +32,7 @@ const imageFormSchema = z.object({
     '1408x768',
   ]),
   promptRewriting: z.boolean(),
+  personGeneration: z.enum(['allow_all', 'allow_adults', 'disallow']),
 });
 
 type ImageFormSchema = z.infer<typeof imageFormSchema>;
@@ -41,6 +48,7 @@ export const ImageForm = () => {
     defaultValues: {
       aspectRatio: '1024x1024',
       promptRewriting: true,
+      personGeneration: 'allow_adults',
     },
   });
 
@@ -69,6 +77,16 @@ export const ImageForm = () => {
         />
       </div>
       <div className="mt-4">
+        <Select<ImageFormSchema>
+          name="personGeneration"
+          label="Person Generation"
+          description="Control how people are represented in the generated image."
+          register={register}
+          errors={errors}
+          options={personGenerationOptions}
+        />
+      </div>
+      <div className="mt-4">
         <Toggle
           name="promptRewriting"
           label="Prompt Rewriting"
@@ -81,6 +99,10 @@ export const ImageForm = () => {
       <div className="form-control mt-6">
         <Button type="submit">Generate Image</Button>
       </div>
+      <p className="text-base-content/70 mt-4 text-center text-xs">
+        To promote transparency, all generated images will include a subtle
+        watermark identifying them as AI-created.
+      </p>
     </form>
   );
 };

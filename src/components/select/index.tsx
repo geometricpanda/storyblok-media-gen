@@ -5,6 +5,7 @@ import {
   type Path,
   type UseFormRegister,
 } from 'react-hook-form';
+import clsx from 'clsx';
 import { AlertTriangle } from 'lucide-react';
 
 interface SelectProps<T extends FieldValues> {
@@ -37,7 +38,19 @@ export const Select = <T extends FieldValues>({
       {description && (
         <p className="text-base-content/80 mb-2 text-xs">{description}</p>
       )}
-      <select id={id} {...register(name)} className="select select-bordered">
+      <select
+        id={id}
+        className={clsx(
+          'select',
+          'select-bordered',
+          'focus:ring-2',
+          'focus:ring-blue-500',
+          'focus:ring-offset-2',
+          'focus:outline-none',
+          error && 'select-error'
+        )}
+        {...register(name)}
+      >
         {options.map(({ label, value }) => (
           <option key={value} value={value}>
             {label}
