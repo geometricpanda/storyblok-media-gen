@@ -4404,19 +4404,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-use-measure@npm:^2.1.7":
-  version: 2.1.7
-  resolution: "react-use-measure@npm:2.1.7"
-  peerDependencies:
-    react: ">=16.13"
-    react-dom: ">=16.13"
-  peerDependenciesMeta:
-    react-dom:
-      optional: true
-  checksum: 10c0/ff24130e6f95e853feb6892fb74af08dbc5aae3574b701169e3bc3adb392c3162f51a58ddfe39bb7337db13ae609bbec0bb51a9de8b5fae5420f9d17e1f8b542
-  languageName: node
-  linkType: hard
-
 "react@npm:^19.1.0":
   version: 19.1.0
   resolution: "react@npm:19.1.0"
@@ -4885,6 +4872,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"storyblok-js-client@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "storyblok-js-client@npm:7.0.1"
+  checksum: 10c0/9cb34678a04c69a4a64f9a9056cadb7142b230a2ca788b849ad5373a92c211731223cec91ee0cdb2200c38319dc2d0a80328989ed01952685b97b98d76ec49f3
+  languageName: node
+  linkType: hard
+
 "storyblok-media-gen@workspace:.":
   version: 0.0.0-use.local
   resolution: "storyblok-media-gen@workspace:."
@@ -4909,8 +4903,8 @@ __metadata:
     prettier-plugin-tailwindcss: "npm:^0.6.13"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
-    react-use-measure: "npm:^2.1.7"
     simple-git-hooks: "npm:^2.13.0"
+    storyblok-js-client: "npm:^7.0.1"
     tailwindcss: "npm:^4.1.10"
     typescript: "npm:^5.8.3"
     zod: "npm:^3.25.67"

@@ -1,5 +1,3 @@
-import { type DefaultSession } from 'next-auth';
-
 export interface StoryblokUser {
   id: string;
   friendly_name: string;
@@ -22,7 +20,7 @@ declare module 'next-auth' {
   }
 
   interface Session {
-    user: DefaultSession['user'] & StoryblokUser;
+    user: StoryblokUser;
     accessToken: string;
     space: StoryblokSpace;
     roles: StoryblokRole[];

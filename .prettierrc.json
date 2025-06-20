@@ -8,12 +8,13 @@
     "prettier-plugin-tailwindcss"
   ],
   "importOrder": [
+    "server-only",
     "^(react|next)",
     "<THIRD_PARTY_MODULES>",
     "^@/",
     "^[./]",
     "\\.module\\.css$"
   ],
-  "importOrderSeparation": true,
+  "importOrderSeparation": false,
   "importOrderSortSpecifiers": true
 }

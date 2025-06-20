@@ -1,8 +1,6 @@
 import NextAuth from 'next-auth';
-
 import { withCookies } from './cookies';
 import { StoryblokProvider } from './storyblok-provider';
-import './types';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [StoryblokProvider()],

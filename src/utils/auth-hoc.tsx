@@ -1,6 +1,5 @@
 import { unauthorized } from 'next/navigation';
 import { ComponentType, FC } from 'react';
-
 import { auth } from '@/auth';
 
 export const withAuth = <P extends object>(

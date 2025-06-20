@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import { type FC, type ReactNode } from 'react';
-
-import { StoryblokHeightObserver } from '@/components/StoryblokHeightObserver';
 import { STORYBLOK } from '@/storyblok/env';
-
+import { StoryblokAutoResize } from '@/storyblok/storyblok-autoresize';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -19,9 +17,8 @@ const Layout: FC<Readonly<LayoutProps>> = ({ children }) => {
   return (
     <html lang="en">
       <body>
-        <StoryblokHeightObserver tool={STORYBLOK.TOOL_NAME}>
-          {children}
-        </StoryblokHeightObserver>
+        <StoryblokAutoResize tool={STORYBLOK.TOOL_NAME} />
+        {children}
       </body>
     </html>
   );
