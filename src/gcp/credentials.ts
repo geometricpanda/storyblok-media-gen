@@ -1,4 +1,5 @@
 import 'server-only';
+import { GoogleAuth } from 'google-auth-library';
 
 // Intentionally not validating credentials here
 // as local development uses GCLOUD CLI to authenticate
@@ -15,3 +16,19 @@ const _credentials = {
 };
 
 export const GCP_CREDENTIALS = GCP_PRIVATE_KEY ? _credentials : {};
+
+export const getAccessToken = async () => {
+  const auth = new GoogleAuth({
+    scopes: 'https://www.googleapis.com/auth/cloud-platform',
+    ...GCP_CREDENTIALS,
+  });
+
+  const client = await auth.getClient();
+  const accessToken = await client.getAccessToken();
+
+  if (!accessToken.token) {
+    throw new Error('Could not get access token');
+  }
+
+  return accessToken.token;
+};

@@ -6,6 +6,7 @@
 :root {
   --color-error: #d9466b;
   --radius-field: 8px;
+  --radius-box: 8px;
 }
 
 html,
