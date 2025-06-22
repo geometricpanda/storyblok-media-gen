@@ -1,8 +1,13 @@
 import NextAuth from 'next-auth';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { prisma } from '@/database';
 import { withCookies } from './cookies';
 import { StoryblokProvider } from './storyblok-provider';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  session: { strategy: 'jwt' },
+  debug: true,
   providers: [StoryblokProvider()],
   cookies: withCookies({}),
   callbacks: {

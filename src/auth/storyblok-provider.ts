@@ -21,7 +21,12 @@ export const StoryblokProvider = (
     name: 'Storyblok',
     type: 'oauth',
     userinfo: 'https://app.storyblok.com/oauth/user_info',
-    authorization: 'https://app.storyblok.com/oauth/authorize',
+    authorization: {
+      url: 'https://app.storyblok.com/oauth/authorize',
+      params: {
+        scope: 'read_content write_content',
+      },
+    },
     token: 'https://app.storyblok.com/oauth/token',
     style: {
       brandColor: '#42b3b0',

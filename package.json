@@ -12,8 +12,11 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.9.1",
     "@hookform/resolvers": "^5.1.1",
+    "@prisma/client": "^6.10.1",
     "clsx": "^2.1.1",
+    "global": "^4.4.0",
     "lucide-react": "^0.519.0",
     "next": "15.3.4",
     "next-auth": "^5.0.0-beta.28",

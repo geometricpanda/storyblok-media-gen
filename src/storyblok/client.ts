@@ -4,7 +4,7 @@ import StoryblokClient from 'storyblok-js-client';
 import { auth } from '@/auth';
 import { STORYBLOK } from './env';
 
-export const getStoryblokClient = async () => {
+export const createStoryblokClient = async () => {
   const session = await auth();
   if (!session) {
     return unauthorized();
