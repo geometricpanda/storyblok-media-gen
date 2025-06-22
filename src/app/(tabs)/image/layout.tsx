@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { Camera, Video } from 'lucide-react';
 import { Tab } from '@/components/tab';
 import { Tabs } from '@/components/tabs';
@@ -8,7 +8,7 @@ interface TabsLayoutProps {
   children: ReactNode;
 }
 
-const TabsLayout: FC<TabsLayoutProps> = ({ children }) => {
+const TabsLayout = withAuth<TabsLayoutProps>(({ children }) => {
   return (
     <>
       <Tabs>
@@ -18,6 +18,6 @@ const TabsLayout: FC<TabsLayoutProps> = ({ children }) => {
       <div className="mt-4">{children}</div>
     </>
   );
-};
+});
 
-export default withAuth(TabsLayout);
+export default TabsLayout;

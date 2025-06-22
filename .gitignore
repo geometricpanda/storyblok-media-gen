@@ -39,4 +39,4 @@ next-env.d.ts
 
 certificates
 
-/src/generated/prisma
+prisma/generated

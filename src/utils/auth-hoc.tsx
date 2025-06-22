@@ -1,19 +1,22 @@
+import type { Session } from 'next-auth';
 import { unauthorized } from 'next/navigation';
-import { ComponentType, FC } from 'react';
+import { FC } from 'react';
 import { auth } from '@/auth';
 
+type AuthenticatedComponent<P> = (
+  props: P,
+  session: Session
+) => React.ReactNode | Promise<React.ReactNode>;
+
 export const withAuth = <P extends object>(
-  WrappedComponent: ComponentType<P>
+  Component: AuthenticatedComponent<P>
 ): FC<P> => {
   const WithAuth: FC<P> = async (props) => {
     const session = await auth();
-
     if (!session) {
       unauthorized();
     }
-
-    return <WrappedComponent {...props} session={session} />;
+    return Component(props, session);
   };
-
   return WithAuth;
 };

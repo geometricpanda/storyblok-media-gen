@@ -7,11 +7,10 @@ import { StoryblokProvider } from './storyblok-provider';
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
-  debug: true,
   providers: [StoryblokProvider()],
   cookies: withCookies({}),
   callbacks: {
-    async jwt({ token, account, profile }) {
+    async jwt({ token, account, profile, user }) {
       if (account) {
         token.accessToken = account.access_token!;
         token.refreshToken = account.refresh_token!;
@@ -24,6 +23,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.roles = profile.roles;
       }
 
+      if (user) {
+        token.id = user.id;
+      }
+
       return token;
     },
     async session({ session, token }) {
@@ -32,6 +35,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           ...session.user,
           ...token.user,
         };
+      }
+      if (token.id) {
+        session.user.id = token.id as string;
       }
       session.accessToken = token.accessToken;
       session.space = token.space;

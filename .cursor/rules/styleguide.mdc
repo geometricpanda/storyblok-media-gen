@@ -36,6 +36,17 @@ Forms should be built using React Hook Form, and Validated using Zod.
 
 Where a type is imported, and used as a type only, it should be imported as a type.
 
+### Server Action Conventions
+
+- **Data Validation:** The first step in any server action that receives data from a form should be to re-validate that data against its Zod schema. This is a critical security measure.
+- **Data Passing:** Server actions should be designed to accept strongly-typed objects (e.g., the Zod schema type) rather than raw `FormData`. This improves type safety and testability.
+
+### UI Component Conventions
+
+- **Alerts:** Reusable `Alert` components should support a `title` prop to provide a clear summary of the content.
+- **Icons:** Use the `lucide-react` library for a consistent icon set. Error icons across the application should be consistent (e.g., using `AlertTriangle`). Icons within alerts should have a solid fill for better visibility (e.g., using the `fill-current` Tailwind class).
+- **Form Field Errors:** Error messages for form inputs should be displayed vertically below the input field, not horizontally beside it. This is typically achieved by using `flex` or `block` display properties for the error container.
+
 ## CSS & Tailwind
 
 CSS should be implemented using CSS modules.
@@ -49,16 +60,72 @@ For components with a single CSS classes, it should be provided directly into th
 For components with multiple css classes, they should be applied using the CLSX library and ensure that each classname is a different string - this is to allow multiline wrapping:
 
 ```tsx
- <div className={clsx('classname-1', 'classname-2')}>
- ...
- </div>
+<div className={clsx('classname-1', 'classname-2')}>
+  ...
+</div>
 ```
 
 Should a component have optional CSS classes, they should be applied using an object notication
 
 ```tsx
-<div className={clsx({
-    [styles['classname']]: true,
-    [styles['classname--variant']]: variant === true,
-}, className)}>
+<div
+  className={clsx(
+    {
+      [styles['classname']]: true,
+      [styles['classname--variant']]: variant === true,
+    },
+    className,
+  )}
+></div>
 ```
+
+## React Hook Form
+
+- **Submission Handling:** The `onSubmit` function should be wrapped with `handleSubmit` at the time of its declaration, not in the `<form>` element's prop. This provides better type safety and cleaner JSX.
+
+  ```tsx
+  const { handleSubmit } = useForm<MyFormSchema>();
+
+  const onSubmit = handleSubmit(async (data) => {
+    // submission logic
+  });
+
+  return <form onSubmit={onSubmit}>{/* ... */}</form>;
+  ```
+
+- **Pending/Submitting State:** Use the `isSubmitting` property from `formState` to manage the submitting state of a form. Avoid using a separate `useState` for this purpose.
+
+- **Error Handling:** Use a unified approach for displaying errors. All errors, whether from client-side validation or returned from a server action, should be managed by `react-hook-form`.
+  - Use the `setError` function to programmatically set errors.
+  - For general, non-field-specific errors returned from a server action, set the error on the `root` of the form (e.g., `setError('root.serverError', { ... })`).
+
+## Authentication
+
+This application uses the `experimental.authInterrupts` feature in Next.js.
+
+- **Authentication HOC:** Page-level authentication should be handled by the `withAuth` Higher-Order Component (`@/utils/auth-hoc`). The component should be defined as an inline function passed to the HOC. This allows for passing component-specific props and receiving the `session` object directly.
+
+  ```tsx
+  type PageProps = {
+    params: Promise<{
+      requestId: string;
+    }>;
+  };
+
+  const Page = withAuth<PageProps>(async (props, session) => {
+    // component logic...
+  });
+
+  export default Page;
+  ```
+
+- **Unauthorized Access:** The `withAuth` HOC uses the `unauthorized()` function from `next/navigation` to handle unauthenticated users. This function is provided by the `authInterrupts` feature and will automatically render the `src/app/unauthorized.tsx` page. Do not replace this with a `redirect`.
+
+## Database
+
+Prisma is used as the ORM for this project.
+
+- The Prisma schema is located at `prisma/schema.prisma`.
+- A singleton instance of the Prisma client is available and should be imported from `@/database`.
+- When making changes to the schema, a new migration must be created using `npx prisma migrate dev --name <migration_name>`.
+
