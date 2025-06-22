@@ -61,12 +61,10 @@ export const Textarea = <T extends FieldValues>({
         {...register(name)}
       />
       {error && (
-        <label className="label mt-1">
-          <span className="label-text-alt text-error inline-flex items-center gap-1 text-xs">
-            <AlertTriangle className="h-4 w-4" />
-            {error.message?.toString()}
-          </span>
-        </label>
+        <div className="label-text-alt text-error mt-1 flex items-center gap-1 text-xs">
+          <AlertTriangle className="h-4 w-4" />
+          {error.message?.toString()}
+        </div>
       )}
     </div>
   );
