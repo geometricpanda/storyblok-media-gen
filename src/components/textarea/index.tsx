@@ -18,6 +18,7 @@ interface TextareaProps<T extends FieldValues> {
   errors: FieldErrors<T>;
   minRows?: number;
   required?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export const Textarea = <T extends FieldValues>({
@@ -29,6 +30,7 @@ export const Textarea = <T extends FieldValues>({
   errors,
   minRows = 3,
   required,
+  size,
 }: TextareaProps<T>) => {
   const error = errors[name];
   const id = useId();
@@ -49,6 +51,11 @@ export const Textarea = <T extends FieldValues>({
         className={clsx(
           'textarea',
           'textarea-bordered',
+          {
+            'textarea-sm': size === 'sm',
+            'textarea-md': size === 'md',
+            'textarea-lg': size === 'lg',
+          },
           'leading-tight',
           'focus:ring-2',
           'focus:ring-blue-500',

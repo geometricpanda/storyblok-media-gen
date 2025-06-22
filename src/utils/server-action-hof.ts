@@ -6,7 +6,7 @@ import type { ServerActionErrorResult } from './form-helpers';
 type ActionLogic<T extends z.ZodTypeAny, U> = (
   validatedData: z.infer<T>,
   session: Session
-) => Promise<U>;
+) => Promise<U | ServerActionErrorResult>;
 
 export const withServerAction =
   <T extends z.ZodTypeAny, U>(schema: T, action: ActionLogic<T, U>) =>

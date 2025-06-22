@@ -17,3 +17,11 @@ export const createGeneratedImages = ({
     })),
   });
 };
+
+export const getGeneratedImageById = (id: string) => {
+  return prisma.generatedImage.findUnique({
+    where: {
+      id,
+    },
+  });
+};

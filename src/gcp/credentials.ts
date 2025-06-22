@@ -1,33 +1,34 @@
 import 'server-only';
 import { GoogleAuth } from 'google-auth-library';
 
-// Intentionally not validating credentials here
-// as local development uses GCLOUD CLI to authenticate
-
-const { GCP_CREDENTIALS: b64Credentials, GCP_PROJECT_ID } = process.env;
+const { GCP_CREDENTIALS, GCP_PROJECT_ID } = process.env;
 
 const getGcpCredentials = () => {
-  if (b64Credentials) {
-    try {
-      const decodedCredentials = Buffer.from(b64Credentials, 'base64').toString(
-        'utf-8'
-      );
-      const credentials = JSON.parse(decodedCredentials);
-      return {
-        projectId: GCP_PROJECT_ID,
-        credentials,
-      };
-    } catch {
-      return {
-        projectId: GCP_PROJECT_ID,
-      };
+  if (GCP_CREDENTIALS) {
+    const decodedCredentials = Buffer.from(
+      GCP_CREDENTIALS,
+      'base64'
+    ).toString();
+
+    if (!decodedCredentials) {
+      throw new Error('Could not decode credentials');
     }
+
+    const credentials = JSON.parse(decodedCredentials);
+
+    if (!credentials) {
+      throw new Error('Could not parse credentials');
+    }
+    return {
+      projectId: GCP_PROJECT_ID,
+      credentials,
+    };
   }
 
   return {};
 };
 
-export const createAuthClient = () => {
+export const createAuth = () => {
   const credentials = getGcpCredentials();
   return new GoogleAuth({
     scopes: 'https://www.googleapis.com/auth/cloud-platform',
@@ -35,14 +36,29 @@ export const createAuthClient = () => {
   });
 };
 
-export const getAccessToken = async () => {
-  const auth = createAuthClient();
-  const client = await auth.getClient();
-  const accessToken = await client.getAccessToken();
+export const createAuthClient = async () => {
+  const auth = createAuth();
+  return await auth.getClient();
+};
 
-  if (!accessToken.token) {
+export const getCredentials = async () => {
+  const auth = createAuth();
+  return await auth.getCredentials();
+};
+
+export const getAccessToken = async () => {
+  const client = await createAuthClient();
+
+  if (!client) {
+    throw new Error('Could not get Auth Client');
+  }
+
+  const accessTokenResponse = await client.getAccessToken();
+
+  if (!accessTokenResponse || !accessTokenResponse.token) {
+    console.error('Failed to get access token. Response:', accessTokenResponse);
     throw new Error('Could not get access token');
   }
 
-  return accessToken.token;
+  return accessTokenResponse.token;
 };

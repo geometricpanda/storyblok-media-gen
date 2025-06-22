@@ -17,7 +17,7 @@ export const Tab: FC<TabProps> = ({ href, icon, text, active }) => {
         'inline-flex',
         'items-center',
         'gap-2',
-        'px-4',
+        'px-2.5',
         'py-3',
         'border-b-2',
         'font-medium',

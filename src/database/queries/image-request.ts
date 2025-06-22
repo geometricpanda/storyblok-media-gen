@@ -1,3 +1,4 @@
+import { ImageRequestStatus } from '@prisma/client';
 import type { ImageFormSchema } from '@/app/(tabs)/image/_lib/schema';
 import { prisma } from '@/database';
 
@@ -18,18 +19,33 @@ export const createImageRequest = ({
   });
 };
 
+export const updateImageRequestStatus = ({
+  id,
+  status,
+}: {
+  id: string;
+  status: ImageRequestStatus;
+}) => {
+  return prisma.imageRequest.update({
+    where: {
+      id,
+    },
+    data: {
+      status,
+    },
+  });
+};
+
+export type ImageRequest = NonNullable<
+  Awaited<ReturnType<typeof getImageRequestById>>
+>;
+
 type GetImageRequestByIdData = {
   id: string;
   userId: string | number;
 };
 
-export type GeneratedImage = NonNullable<
-  NonNullable<
-    NonNullable<
-      NonNullable<Awaited<ReturnType<typeof getImageRequestById>>>
-    >['generatedImages']
-  >[number]
->;
+export type GeneratedImage = ImageRequest['generatedImages'][number];
 
 export const getImageRequestById = ({
   id,
@@ -42,6 +58,27 @@ export const getImageRequestById = ({
     },
     include: {
       generatedImages: true,
+    },
+  });
+};
+
+export const getImageRequestsByUserId = ({
+  userId,
+}: {
+  userId: string | number;
+}) => {
+  return prisma.imageRequest.findMany({
+    where: {
+      userId: String(userId),
+      status: {
+        not: 'FAILED',
+      },
+    },
+    include: {
+      generatedImages: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
     },
   });
 };

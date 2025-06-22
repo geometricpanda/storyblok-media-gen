@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Camera, Video } from 'lucide-react';
+import { Camera, History } from 'lucide-react';
 import { Tab } from '@/components/tab';
 import { Tabs } from '@/components/tabs';
 import { withAuth } from '@/utils/auth-hoc';
@@ -12,8 +12,8 @@ const TabsLayout = withAuth<TabsLayoutProps>(({ children }) => {
   return (
     <>
       <Tabs>
-        <Tab href="/image" icon={<Camera />} text="AI Image" active />
-        <Tab href="/video" icon={<Video />} text="AI Video" />
+        <Tab href="/image" icon={<Camera />} text="Image" active />
+        <Tab href="/history" icon={<History />} text="History" />
       </Tabs>
       <div className="mt-4">{children}</div>
     </>

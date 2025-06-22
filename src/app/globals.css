@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: pastel --default;
+  themes: fantasy --default;
 }
 
 :root {
@@ -13,4 +13,8 @@ html,
 body {
   height: auto;
   overflow: hidden;
+}
+
+.force-no-animation {
+  transition: none !important;
 }

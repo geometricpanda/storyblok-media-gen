@@ -1,6 +1,5 @@
 import { getAccessToken } from './credentials';
 import { GCP } from './env';
-// import { MimeType } from './types';
 import type {
   GenerateImageOptions,
   ImagenRequestInstance,

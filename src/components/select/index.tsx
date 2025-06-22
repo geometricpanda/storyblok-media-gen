@@ -16,6 +16,7 @@ interface SelectProps<T extends FieldValues> {
   errors: FieldErrors<T>;
   options: { label: string; value: string }[];
   required?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export const Select = <T extends FieldValues>({
@@ -26,6 +27,7 @@ export const Select = <T extends FieldValues>({
   errors,
   options,
   required,
+  size,
 }: SelectProps<T>) => {
   const error = errors[name];
   const id = useId();
@@ -46,6 +48,12 @@ export const Select = <T extends FieldValues>({
         className={clsx(
           'select',
           'select-bordered',
+          'cursor-pointer',
+          {
+            'select-sm': size === 'sm',
+            'select-md': size === 'md',
+            'select-lg': size === 'lg',
+          },
           'focus:ring-2',
           'focus:ring-blue-500',
           'focus:ring-offset-2',

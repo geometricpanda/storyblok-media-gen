@@ -16,6 +16,7 @@ interface ToggleProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   watch: UseFormWatch<T>;
   errors: FieldErrors<T>;
+  disabled?: boolean;
 }
 
 export const Toggle = <T extends FieldValues>({
@@ -25,6 +26,7 @@ export const Toggle = <T extends FieldValues>({
   register,
   watch,
   errors,
+  disabled,
 }: ToggleProps<T>) => {
   const id = useId();
   const error = errors[name];
@@ -57,6 +59,7 @@ export const Toggle = <T extends FieldValues>({
             }
           )}
           {...register(name)}
+          disabled={disabled}
         />
         <label
           htmlFor={id}

@@ -1,8 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Sparkles } from 'lucide-react';
 import { Alert } from '@/components/alert';
 import { Button } from '@/components/button';
 import { Select } from '@/components/select';
@@ -26,7 +28,11 @@ const personGenerationOptions = [
   { label: 'Dont Allow', value: PersonGeneration.DONT_ALLOW },
 ];
 
-export const ImageForm = () => {
+interface ImageFormProps {
+  imageRequest?: ImageFormSchema;
+}
+
+export const ImageForm: React.FC<ImageFormProps> = ({ imageRequest }) => {
   const router = useRouter();
   const {
     register,
@@ -34,46 +40,41 @@ export const ImageForm = () => {
     formState: { errors, isSubmitting },
     watch,
     setError,
-    clearErrors,
+    setValue,
   } = useForm<ImageFormSchema>({
     resolver: zodResolver(imageFormSchema),
-    defaultValues: {
+    defaultValues: imageRequest || {
       aspectRatio: ImagenAspectRatio.LANDSCAPE,
       promptRewriting: true,
       personGeneration: PersonGeneration.ALLOW_ADULT,
     },
   });
 
+  const prompt = watch('prompt');
+  const promptWordCount = prompt ? prompt.trim().split(/\s+/).length : 0;
+  const isPromptTooLong = promptWordCount > 30;
+
+  useEffect(() => {
+    if (isPromptTooLong) {
+      setValue('promptRewriting', false);
+    }
+  }, [isPromptTooLong, setValue]);
+
   const onSubmit = handleSubmit(async (data) => {
-    clearErrors();
     const result = await generateImageAction(data);
 
-    if (result && 'imageRequestId' in result) {
-      router.push(`/image/${result.imageRequestId}`);
-    } else if (result && ('error' in result || 'fieldErrors' in result)) {
-      handleServerActionErrors(result, setError);
+    if (result && ('error' in result || 'fieldErrors' in result)) {
+      return handleServerActionErrors(result, setError);
     }
-  });
 
-  const errorMessages = Object.values(errors)
-    .map((error) => error?.message)
-    .filter(Boolean);
+    router.push(`/image/view/${result.id}`);
+  });
 
   return (
     <form onSubmit={onSubmit}>
-      {errorMessages.length > 0 && (
-        <Alert
-          type="error"
-          className="mb-4"
-          title={`You have ${errorMessages.length} error${
-            errorMessages.length > 1 ? 's' : ''
-          }`}
-        >
-          <ul className="list-inside list-disc">
-            {errorMessages.map((message) => (
-              <li key={message}>{message}</li>
-            ))}
-          </ul>
+      {errors.root?.serverError && (
+        <Alert type="error" className="mb-4" title="An error occurred">
+          {errors.root.serverError.message}
         </Alert>
       )}
       <Textarea<ImageFormSchema>
@@ -84,6 +85,7 @@ export const ImageForm = () => {
         errors={errors}
         placeholder="A majestic lion with a flowing mane, standing on a rocky outcrop overlooking a vast savanna at sunset, cinematic lighting, hyper-detailed, shot on a DSLR with a 50mm lens during the golden hour."
         required
+        size="sm"
       />
       <div className="mt-4">
         <Textarea<ImageFormSchema>
@@ -93,6 +95,7 @@ export const ImageForm = () => {
           register={register}
           errors={errors}
           placeholder="text, watermark, bad quality, poor quality, blurry, pixelated, noisy"
+          size="sm"
         />
       </div>
       <div className="mt-4">
@@ -103,6 +106,7 @@ export const ImageForm = () => {
           register={register}
           errors={errors}
           options={aspectRatios}
+          size="sm"
         />
       </div>
       <div className="mt-4">
@@ -113,20 +117,32 @@ export const ImageForm = () => {
           register={register}
           errors={errors}
           options={personGenerationOptions}
+          size="sm"
         />
       </div>
       <div className="mt-4">
         <Toggle
           name="promptRewriting"
           label="Prompt Rewriting"
-          description="Let an AI rewrite your prompt for better results."
+          description={
+            isPromptTooLong
+              ? 'Disabled because prompt is over 30 words.'
+              : 'Let an AI rewrite your prompt for better results.'
+          }
           register={register}
           watch={watch}
           errors={errors}
+          disabled={isPromptTooLong}
         />
       </div>
       <div className="form-control mt-6">
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          icon={<Sparkles size={20} />}
+          variant="primary"
+          fullWidth
+        >
           {isSubmitting ? 'Generating...' : 'Generate Image'}
         </Button>
       </div>
